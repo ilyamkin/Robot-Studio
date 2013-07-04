@@ -1,0 +1,74 @@
+unit Unit4;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ComCtrls, StdCtrls;
+
+type
+  TForm4 = class(TForm)
+    Label1: TLabel;
+    TrackBar1: TTrackBar;
+    Edit1: TEdit;
+    Button1: TButton;
+    procedure TrackBar1Change(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form4: TForm4;
+
+implementation
+
+uses Unit1;
+
+{$R *.dfm}
+
+procedure TForm4.TrackBar1Change(Sender: TObject);
+begin
+Edit1.Text:=IntToStr(TrackBar1.Position);
+end;
+
+procedure TForm4.Edit1Change(Sender: TObject);
+var
+A: set of Char;
+str:string;
+flag:boolean;
+i:integer;
+begin
+flag:=true;
+a:=['0','1','2','3','4','5','6','7','8','9'];
+str:=Edit1.Text;
+if str <> '' then
+begin
+for i:=1 to length(str) do
+  if not (str[i] in A) then
+  begin
+    flag:=false;
+    break;
+  end;
+end else flag:=false;
+if flag then
+  TrackBar1.Position:=StrToInt(str);
+end;
+
+procedure TForm4.Button1Click(Sender: TObject);
+begin
+Rfd.R.SleepTime:=TrackBar1.Position;
+close;
+end;
+
+procedure TForm4.FormShow(Sender: TObject);
+begin
+TrackBar1.Position:=Rfd.R.SleepTime;
+Edit1.Text:=IntToStr(rfd.R.SleepTime);
+end;
+
+end.
